@@ -48,5 +48,15 @@ def form():
     return render_template('form.html')
 
 
+@app.route('/<post_path>')
+def show_post(post_path):
+    post = db_session.query(Post).filter(Post.path == post_path).first()
+
+    if post is None:
+        abort(404)
+
+    return render_template('post.html', post=post)
+
+
 if __name__ == "__main__":
     app.run()
