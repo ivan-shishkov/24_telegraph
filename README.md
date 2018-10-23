@@ -1,6 +1,9 @@
 # Telegraph Clone
 
-{TODO. There will be project description}
+This service is intended to create posts and give a unique URL's to them. 
+The author also has the ability to edit the post created by him. 
+All created posts is saved to the SQLite database.
+Online version of service is available here.
 
 # Project Goals
 
