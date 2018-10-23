@@ -58,5 +58,33 @@ def show_post(post_path):
     return render_template('post.html', post=post)
 
 
+@app.route('/<post_path>/edit', methods=['GET', 'POST'])
+def edit_post(post_path):
+    if post_path not in session or session[post_path] != post_path:
+        abort(403)
+
+    post = db_session.query(Post).filter(Post.path == post_path).first()
+
+    if post is None:
+        abort(404)
+
+    if request.method == 'POST':
+        post.header = request.form['header']
+        post.signature = request.form['signature']
+        post.body = request.form['body']
+        post.published = datetime.date.today()
+
+        db_session.commit()
+
+        return redirect(url_for('show_post', post_path=post_path))
+
+    return render_template(
+        'form.html',
+        header=post.header,
+        signature=post.signature,
+        body=post.body,
+    )
+
+
 if __name__ == "__main__":
     app.run()
