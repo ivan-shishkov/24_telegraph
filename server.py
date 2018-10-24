@@ -42,6 +42,7 @@ def form():
         db_session.commit()
 
         session[post_path] = post_path
+        session.permanent = True
 
         return redirect(url_for('show_post', post_path=post_path))
 
