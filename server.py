@@ -1,14 +1,14 @@
 import datetime
+import os
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask import abort
 
 from utils import get_post_path
 from db import db_session, Post
-from config import SECRET_KEY
 
 app = Flask(__name__)
-app.secret_key = SECRET_KEY
+app.secret_key = os.environ.get('SECRET_KEY')
 
 STATUS_CODE_FORBIDDEN = 403
 STATUS_CODE_PAGE_NOT_FOUND = 404
