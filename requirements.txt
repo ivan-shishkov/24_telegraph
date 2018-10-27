@@ -1,3 +1,3 @@
 Flask==1.0.2
+python-slugify==1.2.6
 SQLAlchemy==1.2.12
-transliterate==1.10.2

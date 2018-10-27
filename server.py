@@ -3,8 +3,8 @@ import os
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask import abort
+from slugify import slugify
 
-from utils import get_post_path
 from db import db_session, Post
 
 app = Flask(__name__)
@@ -15,8 +15,13 @@ STATUS_CODE_PAGE_NOT_FOUND = 404
 
 
 def get_unique_post_path(post_header):
-    post_path = get_post_path(post_header)
+    today_date = datetime.date.today()
 
+    post_path = '{}-{}-{}'.format(
+        slugify(post_header),
+        today_date.month,
+        today_date.day,
+    )
     count_same_post_paths = len(
         db_session.query(Post.path).filter(
             Post.path.like('{}%'.format(post_path)),
