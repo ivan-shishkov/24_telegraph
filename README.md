@@ -26,7 +26,7 @@ $ python3 db.py
 Usage:
 
 ```bash
-
+$ export SECRET_KEY='your_secret_key'
 $ python3 server.py
 
 ```
