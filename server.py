@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask import abort
 from slugify import slugify
+from baseconv import base62
 
 from db import db_session, Post
 
@@ -15,22 +16,23 @@ STATUS_CODE_PAGE_NOT_FOUND = 404
 
 
 def get_unique_post_path(post_header):
-    today_date = datetime.date.today()
+    now = datetime.datetime.now()
 
-    post_path = '{}-{}-{}'.format(
-        slugify(post_header),
-        today_date.month,
-        today_date.day,
-    )
-    count_same_post_paths = len(
-        db_session.query(Post.path).filter(
-            Post.path.like('{}%'.format(post_path)),
-        ).all(),
+    now_integer_value = int(
+        '{}{:02d}{:02d}{:02d}{:02d}{:02d}{:06d}'.format(
+            now.year,
+            now.month,
+            now.day,
+            now.hour,
+            now.minute,
+            now.second,
+            now.microsecond,
+        ),
     )
     return '{}-{}'.format(
-        post_path,
-        count_same_post_paths,
-    ) if count_same_post_paths > 0 else post_path
+        slugify(post_header),
+        base62.encode(now_integer_value),
+    )
 
 
 @app.route('/', methods=['GET', 'POST'])
