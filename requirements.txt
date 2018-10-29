@@ -1,3 +1,4 @@
 Flask==1.0.2
+python-baseconv==1.2.1
 python-slugify==1.2.6
 SQLAlchemy==1.2.12
